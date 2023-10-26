@@ -1,6 +1,30 @@
   <script setup> 
    import ModeleSVG from "../../public/Modele.vue"
 
+   import { ref } from 'vue';
+import PocketBase from 'pocketbase';
+
+const pb = new PocketBase("https://sae301.guillaume-le-trequesser.fr")
+
+const setColorValue = (element, colorId) => {
+    colorValues[element] = colorId;
+};
+
+const voirMonPanier = () => {
+  // Ensuite, envoyez les données à PocketBase
+  console.log('Valeurs de couleur sélectionnées :', colorValues.couleur_cadre, colorValues.couleur_branches, colorValues.couleur_verres);
+  pb.collection('Lunettes').create({
+    couleur_cadre: colorValues.value.couleur_cadre,
+    couleur_branches: colorValues.value.couleur_branches,
+    couleur_verres: colorValues.value.couleur_verres,
+    materiau_cadre: colorValues.value.materiau_cadre,
+    materiau_verre: colorValues.value.materiau_verre,
+    soleil: coche1.value,
+    anti_reflet: coche2.value,
+    anti_bleu: coche3.value,
+    // Ajoutez d'autres champs Lunettes ici
+  });
+};
   </script>
   
   <template>
